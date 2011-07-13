@@ -102,7 +102,7 @@
 	return [UIColor colorWithAlphaHex: hex];
 }
 
-+ (NSString *)hexStringFromColor: (UIColor *)color
++ (NSString *)hexStringFromColor: (UIColor *)color withPrefix:(BOOL)withPrefix withAlpha:(BOOL)withAlpha
 {
 	// Get the color components of the color
 	const NSUInteger totalComponents = CGColorGetNumberOfComponents([color CGColor]);
@@ -111,16 +111,23 @@
 	
 	// Some cases, totalComponents will have only 2 components such as
 	// black, white, gray, etc..
+  NSString *hexPrefix = withPrefix ? @"#" : @"";
+  
 	switch (totalComponents)
 	{
 		// Multiply it by 255 and display the result using an uppercase hexadecimal specifier (%X) with a character length of 2
 		case 4 :
-			hexadecimal = [NSString stringWithFormat: @"#%02X%02X%02X", (int)(255 * components[0]), (int)(255 * components[1]), (int)(255 * components[2])];
+    {
+      NSString *alpha = withAlpha ? [NSString stringWithFormat:@"%02X", (int)(255 * components[3])] : @"";
+			hexadecimal = [NSString stringWithFormat: @"%@%@%02X%02X%02X", hexPrefix, alpha, (int)(255 * components[0]), (int)(255 * components[1]), (int)(255 * components[2])];
 			break;
-			
+    }
 		case 2 :
-			hexadecimal = [NSString stringWithFormat: @"#%02X%02X%02X", (int)(255 * components[0]), (int)(255 * components[0]), (int)(255 * components[0])];
+    {
+      NSString *alpha = withAlpha ? [NSString stringWithFormat:@"%02X", (int)(255 * components[1])] : @"";
+			hexadecimal = [NSString stringWithFormat: @"%@%@%02X%02X%02X", hexPrefix, alpha, (int)(255 * components[0]), (int)(255 * components[0]), (int)(255 * components[0])];
 			break;
+    }
 		
 		default:
 			break;
