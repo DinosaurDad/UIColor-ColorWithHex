@@ -130,6 +130,7 @@
     }
 		
 		default:
+      hexadecimal = nil;
 			break;
 	}
 	
@@ -210,6 +211,8 @@
 		}
 	}
 	
+  [hexArray release];
+  
 	CGFloat red = 0.0;
 	CGFloat green = 0.0;
 	CGFloat blue = 0.0;
@@ -247,6 +250,8 @@
 		}
 	}
 	
+  [hexConverted release];
+  
 	return [UIColor colorWithRed: red / 255.0f green: green / 255.0f blue: blue / 255.0f alpha: 1.0f];
 }
 
