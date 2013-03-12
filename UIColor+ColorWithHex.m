@@ -46,30 +46,23 @@
 	// Bit shift right the hexadecimal's last 2 values
 	blue = hexadecimal & 0xFF;
 	
-    return [UIColor colorWithRed: red / 255.0f green: green / 255.0f blue: blue / 255.0f alpha: 1.0f];
+  return [UIColor colorWithRed: red / 255.0f green: green / 255.0f blue: blue / 255.0f alpha: 1.0f];
 }
 
 + (UIColor *)colorWithHexString:(NSString *)hexadecimal
 {
-	// Convert Objective-C NSString to C string
-	const char *cString = [hexadecimal cStringUsingEncoding: NSASCIIStringEncoding];
-	long int hex;
-	
-	/*
-	 If the string contains hash tag (#)
-	 If yes then remove hash tag and convert the C string
-	 to a base-16 int
-	 */
-	if (cString[0] == '#')
-	{
-		hex = strtol(cString + 1, NULL, 16);
-	}
-	else
-	{
-		hex = strtol(cString, NULL, 16);
-	}
-	
-	return [UIColor colorWithHex: hex];
+  if (hexadecimal == nil || hexadecimal.length == 0) {
+    return nil;
+  }
+  unsigned int hex = 0;
+  NSScanner *scanner = [NSScanner scannerWithString:hexadecimal];
+  BOOL hasHashPrefix = ([hexadecimal rangeOfString:@"#"].location == 0);
+  if (hasHashPrefix) {
+    // skip "#"
+    [scanner setScanLocation:1];
+  }
+  [scanner scanHexInt:&hex];
+	return [UIColor colorWithHex:hex];
 }
 
 + (UIColor *)colorWithAlphaHex:(UInt32)hexadecimal
@@ -82,24 +75,23 @@
 	green = (hexadecimal >> 8) & 0xFF;
 	blue = hexadecimal & 0xFF;
 	
-    return [UIColor colorWithRed: red / 255.0f green: green / 255.0f blue: blue / 255.0f alpha: alpha / 255.0f];
+  return [UIColor colorWithRed: red / 255.0f green: green / 255.0f blue: blue / 255.0f alpha: alpha / 255.0f];
 }
 
 + (UIColor *)colorWithAlphaHexString:(NSString *)hexadecimal
 {
-	const char *cString = [hexadecimal cStringUsingEncoding: NSASCIIStringEncoding];
-	long long int hex;
-	
-	if (cString[0] == '#')
-	{
-		hex = strtoll(cString + 1, NULL, 16);
-	}
-	else
-	{
-		hex = strtoll(cString, NULL, 16);
-	}
-	
-	return [UIColor colorWithAlphaHex: hex];
+  if (hexadecimal == nil || hexadecimal.length == 0) {
+    return nil;
+  }
+  unsigned int hex = 0;
+  NSScanner *scanner = [NSScanner scannerWithString:hexadecimal];
+  BOOL hasHashPrefix = ([hexadecimal rangeOfString:@"#"].location == 0);
+  if (hasHashPrefix) {
+    // skip "#"
+    [scanner setScanLocation:1];
+  }
+  [scanner scanHexInt:&hex];
+	return [UIColor colorWithHex:hex];
 }
 
 + (NSString *)hexStringFromColor: (UIColor *)color withPrefix:(BOOL)withPrefix withAlpha:(BOOL)withAlpha
