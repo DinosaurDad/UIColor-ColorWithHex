@@ -138,7 +138,7 @@
 	if (!generated)
 	{
 		generated = YES;
-		srandom(time(NULL));
+		srandom((unsigned)time(NULL));
 	}
 	
 	// Generate a random number and divide it using the
@@ -222,19 +222,19 @@
 			case 0 :
 			{
 				const int value = [[hexConverted objectAtIndex: x] integerValue];
-				red = value * 16 + [[hexConverted objectAtIndex: x + 1] integerValue];
+				red = value * 16 + [[hexConverted objectAtIndex: x + 1] intValue];
 				break;
 			}
 			case 2 :
 			{
 				const int value = [[hexConverted objectAtIndex: x] integerValue];
-				green = value * 16 + [[hexConverted objectAtIndex: x + 1] integerValue];
+				green = value * 16 + [[hexConverted objectAtIndex: x + 1] intValue];
 				break;
 			}
 			case 4 :
 			{
 				const int value = [[hexConverted objectAtIndex: x] integerValue];
-				blue = value * 16 + [[hexConverted objectAtIndex: x + 1] integerValue];
+				blue = value * 16 + [[hexConverted objectAtIndex: x + 1] intValue];
 				break;
 			}
 			default:
